@@ -8,27 +8,29 @@ Adobe introduced Ant tasks with the release of LiveCycle ES4.  While these tasks
 I have tested these tasks with LiveCycle ES3 and ES4.  I’m using the same configuration file format Adobe uses with their tasks.  I’ve included the complied jar file, sample build file, and configuration file in the repository.  If you are just interested in using the tasks the jar file is all you really need.
 
 
-Tasks:
-AddUser
-Creates a new LiveCycle user account.
+<b>Tasks:</b>
 
-Attributes:
-domain-Required, LiveCycle domain to create account in
-userId-Required, User account id/login
-password-Required, at least 8 characters
-firstName-Optional, defaults to blank
-lastName-Optional, defaults to blank
-email-Optional, defaults to blank
-propertiesFile-Path to properties file
 
-Example:
-<code>
-<AddUser 
+<i>AddUser</i><br>
+Creates a new LiveCycle user account.<br>
+
+Attributes:<br>
+domain-Required, LiveCycle domain in which to create account<br>
+userId-Required, User account id/login<br>
+password-Required, at least 8 characters<br>
+firstName-Optional, defaults to blank<br>
+lastName-Optional, defaults to blank<br>
+email-Optional, defaults to blank<br>
+propertiesFile-Path to properties file<br>
+
+Example:<br>
+<pre><code>
+&lt;AddUser 
         domain="DefaultDom" 
         userId="test" 
         password="password"
         firstName="Test"
         lastName="Test"
         email="test@test.com"
-        propertiesFile="lcserver.properties" />
-</code>
+        propertiesFile="lcserver.properties" /&gt;
+</code></pre>
