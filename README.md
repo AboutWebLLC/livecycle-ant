@@ -7,9 +7,23 @@ Adobe introduced Ant tasks with the release of LiveCycle ES4.  While these tasks
 
 I have tested these tasks with LiveCycle ES3 and ES4.  I’m using the same configuration file format Adobe uses with their tasks.  I’ve included the complied jar file, sample build file, and configuration file in the repository.  If you are just interested in using the tasks the jar file is all you really need.
 
+<b>Properties File</b>
 
-<b>Tasks:</b>
+The properties file is used by all the tasks and includes connection information for the LiveCycle server including: serverUrl, username, password, and timeout.  
 
+serverUrl-URL to server including the part<br>
+username-Administrator or LiveCycle user account with permission to make changes<br>
+password-Password for user account<br>
+timeout-Connection time out in milliseconds<br>
+
+Example:<br>
+<pre><code>serverUrl=http://127.0.0.1:8080
+username=administrator
+password=password
+timeout=1200000
+</code></pre>
+
+<b>Tasks</b>
 
 <i>AddUser</i><br>
 Creates a new LiveCycle user account.<br>
