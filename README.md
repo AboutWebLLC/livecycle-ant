@@ -7,6 +7,61 @@ Adobe introduced Ant tasks with the release of LiveCycle ES4.  While these tasks
 
 I have tested these tasks with LiveCycle ES3 and ES4.  I’m using the same configuration file format Adobe uses with their tasks.  I’ve included the complied jar file, sample build file, and configuration file in the repository.  If you are just interested in using the tasks the jar file is all you really need.
 
+<b>Using the Tasks</b>
+
+In order to use the tags several jar files need to be included from the LiveCycle SDK.  The LiveCycle SDK can be found under the LiveCycle install directory.  In addition, each of the tags has to be defined for Ant.  This definition includes a reference to the LiveCycleTasks.jar where the task is defined and classes it depends on from the LiveCycle SDK.   
+
+<b>Example:</b><br>
+<pre><code><!-- LiveCycle SDK path -->
+&lt;property name="lc.sdk.home" 
+    value="F:/Adobe/Adobe LiveCycle ES4/sdk" /&gt;
+
+<!-- Define classpath and libraries for dependencies -->
+&lt;path id="application.client.classpath"&gt;
+  &lt;pathelement 
+    location="${lc.sdk.home}/client-libs/thirdparty/axis.jar"/&gt; 
+  &lt;pathelement 
+    location="${lc.sdk.home}/client-libs/thirdparty/saaj.jar"/&gt;
+  &lt;pathelement 
+    location="${lc.sdk.home}/client-libs/thirdparty/wsdl4j.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/commons-logging.jar"/&gt;
+  &lt;pathelement 
+    location="${lc.sdk.home}/client-libs/thirdparty/jaxrpc.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/commons-discovery.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/commons-collections-3.1.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/activation.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/mail.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/common/adobe-livecycle-client.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/common/adobe-usermanager-client.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/common/adobe-repository-client.jar"/&gt;
+  &lt;pathelement location=
+    "${lc.sdk.home}/client-libs/common/adobe-application-remote-client.jar"/&gt;  
+&lt;/path&gt;
+
+&lt;fileset id="runtime.libs" dir="."&gt;
+  &lt;include name="LiveCycleAntTasks.jar"/&gt;
+&lt;/fileset&gt;
+
+&lt;path id="runtime.classpath"&gt;
+  &lt;fileset refid="runtime.libs"/&gt;
+&lt;/path&gt;
+
+&lt;taskdef name="LCImportArchive" classname="com.aboutweb.livecycleant.ImportArchive"&gt;
+  &lt;classpath refid="runtime.classpath"/&gt;
+  &lt;classpath refid="application.client.classpath"/&gt;
+&lt;/taskdef&gt;
+</code></pre>
+
+
+
 <b>Properties File</b>
 
 The properties file is used by all the tasks and includes connection information for the LiveCycle server including: serverUrl, username, password, and timeout.  
