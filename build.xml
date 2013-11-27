@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<project name="LiveCycle Ant Tags Test" default="testall" basedir=".">
+    <description>
+        Test script for LiveCycle Ant Tasks
+    </description>
+    
+<!-- LiveCycle SDK path -->
+<property name="lc.sdk.home" 
+    value="F:/Adobe/Adobe LiveCycle ES4/sdk" />
+
+<!-- Define classpath and libraries -->
+<path id="application.client.classpath">
+  <pathelement 
+    location="${lc.sdk.home}/client-libs/thirdparty/axis.jar"/> 
+  <pathelement 
+    location="${lc.sdk.home}/client-libs/thirdparty/saaj.jar"/> 
+  <pathelement 
+    location="${lc.sdk.home}/client-libs/thirdparty/wsdl4j.jar"/> 
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/commons-logging.jar"/>
+  <pathelement 
+    location="${lc.sdk.home}/client-libs/thirdparty/jaxrpc.jar"/> 
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/commons-discovery.jar"/> 
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/commons-collections-3.1.jar"/>
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/activation.jar"/>
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/thirdparty/mail.jar"/>
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/common/adobe-livecycle-client.jar"/>
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/common/adobe-usermanager-client.jar"/>
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/common/adobe-repository-client.jar"/>
+  <pathelement location=
+    "${lc.sdk.home}/client-libs/common/adobe-application-remote-client.jar"/>  
+</path>
+
+<fileset id="runtime.libs" dir=".">
+  <include name="LiveCycleAntTasks.jar"/>
+</fileset>
+
+<path id="runtime.classpath">
+  <fileset refid="runtime.libs"/>
+</path>
+
+<taskdef name="LCImportArchive" classname="com.aboutweb.livecycleant.ImportArchive">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+
+<taskdef name="LCRuntimeConfig" classname="com.aboutweb.livecycleant.RuntimeConfig">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+<taskdef name="LCServiceStatus" classname="com.aboutweb.livecycleant.ServiceStatus">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+<taskdef name="LCServiceMaster" classname="com.aboutweb.livecycleant.ServiceMaster">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+<taskdef name="LCEnableEndpoint" classname="com.aboutweb.livecycleant.EnableEndpoint">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+<taskdef name="LCServicePermission" classname="com.aboutweb.livecycleant.ServicePermission">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+<taskdef name="LCDeploy" classname="com.aboutweb.livecycleant.DeployApplication">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+<taskdef name="LCAddUser" classname="com.aboutweb.livecycleant.AddUser">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+<taskdef name="LCAssignUserRole" classname="com.aboutweb.livecycleant.AssignUserRole">
+  <classpath refid="runtime.classpath"/>
+  <classpath refid="application.client.classpath"/>
+</taskdef>
+
+
+<target name="importArchiveTest"
+        description="Import LCA file" >
+	<!--  Test export -->
+	<LCImportArchive file="f:\\temp\\Test.lca" 
+	    propertiesFile="lcserver.properties" />
+</target>
+
+<target name="runtimeConfigTest"
+    description="Import Runtime Configuration">
+	<LCRuntimeConfig 
+	    applicationName="Test" 
+	    majorVersion="1" 
+	    minorVersion="0" 
+	    runtimeConfigFile="f:\\temp\\Test-1.0_config.xml" 
+	    propertiesFile="lcserver.properties" />
+</target>
+
+<target name="serviceStatusTest"
+    description="Get the service status and validate the status using ant conditionals">
+	<LCServiceStatus serviceName="Test/Test" result="service.result" propertiesFile="lcserver.properties" />
+	<echo message="${service.result}" />
+	<!-- Check the values in the returned service status string -->
+	<fail message="Invalid application version or service not running">
+	    <condition>
+	        <not>
+	            <and>
+					<contains string="${service.result}" substring="majorVersion=1" />
+					<contains string="${service.result}" substring="minorVersion=0" />
+					<contains string="${service.result}" substring="running=true" />
+				</and>
+	        </not>
+	    </condition>
+	</fail>
+</target>
+
+<target name="endpointEnableTest"
+    description="Enable the SOAP service for the Test Service of the Test Project">
+    <LCEnableEndpoint 
+        serviceName="Test/Test" 
+        serviceType="SOAP"  
+        propertiesFile="lcserver.properties" />
+</target>
+
+<target name="serviceMasterTest"
+    description="Ensure only version 1.0 of the Test service is running">
+    <LCServiceMaster 
+        serviceName="Test/Test" 
+        majorVersion="1"
+        minorVersion="0"  
+        propertiesFile="lcserver.properties" />
+</target>
+
+<target name="deployApplicationTest"
+    description="Deploy service">
+    <LCDeploy 
+        applicationName="Test" 
+        version="1.0" 
+        propertiesFile="lcserver.properties" />
+</target>
+
+<target name="addUserTest"
+    description="Add a user">
+    <LCAddUser 
+        domain="DefaultDom" 
+        userId="test" 
+        password="password"
+        firstName="Test"
+        lastName="Test"
+        email="test@test.com"
+        propertiesFile="lcserver.properties" />
+</target>
+
+<target name="assignUserRoles"
+    description="Add roles to a user">
+    <LCAssignUserRole 
+        userId="test" 
+        roles="LiveCycle Workspace User,Services User"
+        propertiesFile="lcserver.properties" />
+</target>
+
+<target name="servicePermissionTest"
+    description="Apply permissions to a service">
+    <LCServicePermission 
+        serviceName="Test/Test" 
+        domainName="DefaultDom" 
+        principalName="test" 
+        permissionNames="INVOKE_PERM,READ_PERM"  
+        propertiesFile="lcserver.properties" />
+</target>
+
+<target name="testall"
+        description="Test All Tags"
+        depends="importArchiveTest,runtimeConfigTest,serviceStatusTest,endpointEnableTest,serviceMasterTest,deployApplicationTest,addUserTest,assignUserRoles,servicePermissionTest">
+
+</target>	
+	
+
+</project>
