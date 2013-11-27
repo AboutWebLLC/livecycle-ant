@@ -66,7 +66,7 @@ In order to use the tags several jar files need to be included from the LiveCycl
 
 The properties file is used by all the tasks and includes connection information for the LiveCycle server including: serverUrl, username, password, and timeout.  
 
-serverUrl-URL to server including the part<br>
+serverUrl-URL to server including the port<br>
 username-Administrator or LiveCycle user account with permission to make changes<br>
 password-Password for user account<br>
 timeout-Connection time out in milliseconds<br>
