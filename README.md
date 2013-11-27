@@ -93,13 +93,27 @@ email-Optional, defaults to blank<br>
 propertiesFile-Path to properties file<br>
 
 Example:<br>
-<pre><code>
-&lt;AddUser 
+<pre><code>&lt;AddUser 
         domain="DefaultDom" 
         userId="test" 
         password="password"
         firstName="Test"
         lastName="Test"
         email="test@test.com"
+        propertiesFile="lcserver.properties" /&gt;
+</code></pre>
+
+<i>AssignUserRole</i><br>
+Assigns one or more roles to a user account.
+
+Attributes:<br>
+userId-Required, User account id/login<br>
+roles-Required, Comma delimited list of user role names<br>
+propertiesFile-Path to properties file<br>
+
+Example:<br>
+<pre><code>&lt;AssignUserRole 
+        userId="test" 
+        roles="LiveCycle Workspace User,Services User"
         propertiesFile="lcserver.properties" /&gt;
 </code></pre>
