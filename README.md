@@ -117,3 +117,118 @@ Example:<br>
         roles="LiveCycle Workspace User,Services User"
         propertiesFile="lcserver.properties" /&gt;
 </code></pre>
+
+<i>DeployApplication</i><br>
+Deploy an existing application on the server
+
+Attributes:<br>
+applicationName-Required, Application Name<br>
+version-Required, Version of application to deploy<br>
+propertiesFile- Required, Path to properties file<br>
+
+Example:<br>
+<pre><code>&lt;Deploy 
+        applicationName="Test" 
+        version="1.0" 
+        propertiesFile="lcserver.properties" /&gt;
+</code></pre>
+
+<i>EnableEndpoint</i><br>
+Enable endpoint type for service; create it if it does not exist
+
+Attributes:<br>
+serviceName - Required, Name of service<br>
+serviceType -Required, Service Type (SOAP|REST|EJB|Remoting)<br>
+propertiesFile- Required, Path to properties file<br>
+
+Example:<br>
+<pre><code>&lt;EnableEndpoint 
+        serviceName="Test/Test" 
+        serviceType="SOAP"  
+        propertiesFile="lcserver.properties" /&gt;
+</code></pre>
+
+<i>ImportArchive</i><br>
+Import an archive (lca) file
+
+Attributes:<br>
+file- Required, Full path to lca file<br>
+propertiesFile- Required, Path to properties file<br>
+
+Example:<br>
+<pre><code>&lt;ImportArchive file="f:\\temp\\Test.lca" 
+	    propertiesFile="lcserver.properties" /&gt;
+</code></pre>
+
+<i>RuntimeConfig</i><br>
+Apply saved runtime configuration to application
+
+Attributes:<br>
+file- Required, Application name<br>
+majorVersion- Required, Major application version<br>
+minorVersion- Required, Minor application version<br>
+runtimeConfigFile- Required, Full path to runtime configuration file<br>
+propertiesFile- Required, Path to properties file<br>
+
+Example:<br>
+<pre><code>&lt;RuntimeConfig 
+	    applicationName="Test" 
+	    majorVersion="1" 
+	    minorVersion="0" 
+	    runtimeConfigFile="f:\\temp\\Test-1.0_config.xml" 
+	    propertiesFile="lcserver.properties" /&gt;
+</code></pre>
+
+<i>ServiceMaster</i><br>
+Ensure only the specified version of the service is running.  Starts specified version if is not running, stops all other versions of the service
+
+Attributes:<br>
+serviceName - Required, Service name<br>
+majorVersion- Required, Major service version<br>
+minorVersion- Required, Minor service version<br>
+propertiesFile- Required, Path to properties file<br>
+
+Example:<br>
+<pre><code>&lt;ServiceMaster 
+        serviceName="Test/Test" 
+        majorVersion="1"
+        minorVersion="0"  
+        propertiesFile="lcserver.properties" /&gt;
+</code></pre>
+
+<i>ServicePermission</i><br>
+Applies one or more permissions for specified user or group to service
+
+Attributes:<br>
+serviceName - Required, Service name<br>
+domainName - Domain that user or group belongs to<br>
+principalName- Required, Name of user or group<br>
+permissionName-Required, Comma delimited list of LiveCycle permissions<br>
+propertiesFile- Required, Path to properties file<br>
+
+Example:<br>
+<pre><code>&lt;ServicePermission 
+        serviceName="Test/Test" 
+        domainName="DefaultDom" 
+        principalName="test" 
+        permissionNames="INVOKE_PERM,READ_PERM"  
+        propertiesFile="lcserver.properties" /&gt;
+</code></pre>
+
+<i>ServiceStatus</i><br>
+Retrieves the status of a service, including component version, major version, minor version, and running status.  Stores the result as a string in the specified Ant variable.  
+
+Attributes:<br>
+serviceName - Required, Service name<br>
+result - Required, Ant variable name<br>
+propertiesFile- Required, Path to properties file<br>
+
+Example:<br>
+<pre><code>&lt;ServiceStatus 
+	    serviceName="Test/Test" 
+	    result="service.result" 
+	    propertiesFile="lcserver.properties" /&gt;
+	    
+service.result= componentVersion=10.0.2.20120224.1.313570;majorVersion=1;minorVersion=0;running=true
+
+</code></pre>
